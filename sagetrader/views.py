@@ -1,16 +1,19 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic import TemplateView
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 from django.http import JsonResponse
-from django.urls import reverse_lazy
+from django.urls import reverse
 
 from .forms import SignUpForm
 
 
 def home(request):
-    context = {}
-    return render(request, 'home.html', context=context)
+    if request.user.is_authenticated:
+        return redirect('trade:dashboard')
+    else:
+        context = {}
+        return render(request, 'home.html', context=context)
 
 class GetAccess(TemplateView):
     

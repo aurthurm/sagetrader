@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'django_gulp',
     'django.contrib.staticfiles',
 
+    'apps.trade.apps.TradeConfig',
+
     
 ]
 

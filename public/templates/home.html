@@ -1,40 +1,9 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block header%}
-<!--Navbar -->
-<nav class="navbar navbar-expand-lg navbar-dark fixed-top scrolling-navbar top-nav-collapse">
-    <div class="container">
-        <a class="navbar-brand" href="{% url 'home' %}">SAGE TRADER</a>
-        {% if user.is_authenticated %}
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-555"
-        aria-controls="navbarSupportedContent-555" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent-555">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-            <a class="nav-link" href="#">Features</a>
-            </li>
-            <li class="nav-item">
-            <a class="nav-link" href="#">Pricing</a>
-            </li>
-        </ul>
-        <ul class="navbar-nav ml-auto nav-flex-icons">
-            <li class="nav-item">
-            <a class="nav-link p-0" href="#">
-                @{{user.username}}
-            </a>
-            </li>
-        </ul>
-        </div>
-        {% endif %}
-    </div>
-  </nav>
-  <!--/.Navbar -->
-
+{% block base-header%}
     <!-- Full Page Intro -->
-    <div class="page-spacer-p view" style="background-image: url('{% static 'img/91.jpg' %}'); background-repeat: no-repeat; background-size: cover; background-position: center center; height: 100vh;">
+    <div class="view" style="background-image: url('{% static 'img/91.jpg' %}'); background-repeat: no-repeat; background-size: cover; background-position: center center; height: 100vh;">
         <!-- Mask & flexbox options-->
         <div class="mask rgba-gradient d-flex justify-content-center align-items-center">
             <!-- Content -->
@@ -82,15 +51,6 @@
     <!-- Mask & flexbox options-->
     </div>
     <!-- Full Page Intro -->
-
-
-{% endblock %}
-
-{% block main %}
-{% endblock %}
-
-{% block footer %}
-    Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sed, odio explicabo modi dolore, quos a earum iure eos at iste molestias ut et consectetur nam temporibus perspiciatis incidunt? Maxime, ratione!
 {% endblock %}
 
 {% block scripts %}

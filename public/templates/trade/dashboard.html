@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block main %}
+<div class="container">
+
+    <ul class="nav md-pills nav-justified pills-pink">
+        <li class="nav-item">
+            <a class="nav-link active" data-toggle="tab" href="#trades" role="tab">TRADES</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#strategies" role="tab">STRATEGIES</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#statistics" role="tab">STATISTICS</a>
+        </li>
+    </ul>
+
+    <div class="tab-content pt-0">
+        <div class="tab-pane fade in show active" id="trades" role="tabpanel">
+            <br>      
+            {% include './table-trades.html' %}      
+        </div>
+        <div class="tab-pane fade" id="strategies" role="tabpanel">
+            <br>      
+            {% include './table-strategies.html' %}       
+        </div>
+        <div class="tab-pane fade" id="statistics" role="tabpanel">
+            <br><br>
+        </div>
+    </div>
+
+</div>
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        $(document).ready(function () {
+
+            // Tables
+            $('#strategiesTable').DataTable();
+            $('#tradesTable').DataTable({
+                ajax: "{% url 'trade:my-trades' %}",
+                "columns": [
+                    { "data": "pair" },
+                    { "data": "traded" },
+                    { "data": "strategy" },
+                    { "data": "outcome" },
+                    { "data": "pips" },
+                    { "data": "shared" },
+                    { "data": "status" },
+                    { "data": "detail" },
+                ]
+            });
+            $('.dataTables_length').addClass('bs-select');
+
+        });
+    </script>
+{% endblock %}
