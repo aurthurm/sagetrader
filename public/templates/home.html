@@ -1,5 +1,159 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block header%}
+<!--Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top scrolling-navbar top-nav-collapse">
+    <div class="container">
+        <a class="navbar-brand" href="{% url 'home' %}">SAGE TRADER</a>
+        {% if user.is_authenticated %}
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-555"
+        aria-controls="navbarSupportedContent-555" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent-555">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+            <a class="nav-link" href="#">Features</a>
+            </li>
+            <li class="nav-item">
+            <a class="nav-link" href="#">Pricing</a>
+            </li>
+        </ul>
+        <ul class="navbar-nav ml-auto nav-flex-icons">
+            <li class="nav-item">
+            <a class="nav-link p-0" href="#">
+                @{{user.username}}
+            </a>
+            </li>
+        </ul>
+        </div>
+        {% endif %}
+    </div>
+  </nav>
+  <!--/.Navbar -->
+
+    <!-- Full Page Intro -->
+    <div class="page-spacer-p view" style="background-image: url('{% static 'img/91.jpg' %}'); background-repeat: no-repeat; background-size: cover; background-position: center center; height: 100vh;">
+        <!-- Mask & flexbox options-->
+        <div class="mask rgba-gradient d-flex justify-content-center align-items-center">
+            <!-- Content -->
+            <div class="container">
+                <!--Grid row-->
+                <div class="d-flex justify-content-center align-items-center">
+                    <!--Grid column-->
+                    <div class="col-6 white-text text-center text-md-left">
+                        <h1 class="h1-responsive font-weight-bold  ">THE WINNING TRADER</h1>
+                        <hr class="hr-light " data-wow-delay="0.3s">
+                        <h6 class="mb-3">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem repellendus quasi fuga
+                        nesciunt dolorum nulla magnam veniam sapiente, fugiat! Commodi sequi non animi ea
+                        dolor molestiae, quisquam iste, maiores. Nulla.</h6>
+                        <a class="btn btn-outline-white"  data-toggle="modal" data-target="#elegantModalForm">Log In</a>
+                        <a class="btn btn-outline-white"  data-toggle="modal" data-target="#darkModalForm">Sign Up</a>
+                        {% include './auth-modals.html' %}
+                    </div>
+                    <!--Grid column-->
+                    <!--Grid column-->
+                    <div class="col-4">
+                        <!--Form-->
+                        <div class="card wow fadeInRight p-0" data-wow-delay="0.3s">
+                            <div class="card-body p-0">
+                            <!--Header-->
+                            <div class="text-center">
+                                <h3 class="pt-2">MEMBERSHIP: FREE</h3>
+                            </div>
+                            <!--Body-->
+                            <ul class="list-group list-group-flush bg-transparent">
+                                <li class="list-group-item">Trading Plan</li>
+                                <li class="list-group-item">Trading Plan</li>
+                                <li class="list-group-item">Trading Plan</li>
+                            </ul>
+                           
+                        </div>
+                    </div>
+                    <!--/.Form-->
+                </div>
+                <!--Grid column-->
+            </div>
+            <!--Grid row-->
+        </div>
+        <!-- Content -->
+    </div>
+    <!-- Mask & flexbox options-->
+    </div>
+    <!-- Full Page Intro -->
+
+
+{% endblock %}
 
 {% block main %}
-Hello World: sagetrader
+{% endblock %}
+
+{% block footer %}
+    Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sed, odio explicabo modi dolore, quos a earum iure eos at iste molestias ut et consectetur nam temporibus perspiciatis incidunt? Maxime, ratione!
+{% endblock %}
+
+{% block scripts %}
+<script>
+
+  $(document).ready(function(){
+
+    // Authenticate user
+    $('form#signInForm').on('submit', function(e){
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      var form = $(this);
+      var accessURL = form.attr('action');
+      var method = form.attr('method');
+      var messages = form.find('.messages');
+      var data = {};
+      data['password'] = form.find('#password').val();
+      data['username'] = form.find('#username').val();
+
+      $.ajax({
+        method: method,
+        url: accessURL,
+        data: data,
+        success: function(res){
+            if (res.authentication === 'failed'){
+                messages.html(res.message);
+            }else{
+                window.location.reload();
+            }
+        },
+        error: function(err){
+            console.log(err)
+        }
+      });
+
+    });
+
+    // Register User
+    $('form#signUpForm').on('submit', function(e){
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        var form = $(this);
+        var data = {};
+        data['password1'] = form.find('#password1').val();
+        data['password2'] = form.find('#password-confirm').val();
+        data['username'] = form.find('#username1').val();
+        data['email'] = form.find('#email').val();
+        
+        $.ajax({
+            method: form.attr('method'),
+            url: form.attr('action'),
+            data: data,
+            success: function(res){
+                console.log(res)
+            },
+            error: function(err){
+                console.log(err)
+            }
+        })
+
+    }); 
+
+  })
+
+</script>
 {% endblock %}

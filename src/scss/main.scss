@@ -1,3 +1,13 @@
+@import './variables';
+@import './globals';
+
 body {
     font-style: antialised;
+}
+
+.signup {
+    .md-form {
+        margin-top: 0px !important;
+        margin-bottom: 0px !important;
+    }
 }

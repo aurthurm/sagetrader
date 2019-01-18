@@ -1,2 +1,18 @@
+.site {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+  padding-right: 0 !important; }
+
+.site-content {
+  flex: 1; }
+
+.page-spacer-p {
+  padding: 80px; }
+
 body {
   font-style: antialised; }
+
+.signup .md-form {
+  margin-top: 0px !important;
+  margin-bottom: 0px !important; }

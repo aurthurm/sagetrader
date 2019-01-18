@@ -1,0 +1,112 @@
+
+    <!-- Modal -->
+<div class="modal fade" id="elegantModalForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+aria-hidden="true">
+<div class="modal-dialog" role="document">
+  <!--Content-->
+  <div class="modal-content form-elegant">
+    <!--Header-->
+    <div class="modal-header text-center">
+      <h3 class="modal-title w-100 dark-grey-text font-weight-bold my-3" id="myModalLabel"><strong>Sign in</strong></h3>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <!--Body-->
+    <div class="modal-body mx-4">
+      <form id="signInForm" method="POST" action="{% url 'get-access' %}">
+        <!--Body-->
+        <div class="messages text-danger"></div>
+        <div class="md-form mb-1">
+          <input type="text" id="username" class="form-control validate">
+          <label data-error="wrong" data-success="right" for="Form-email1">Your username</label>
+        </div>
+
+        <div class="md-form">
+          <input type="password" id="password" class="form-control validate">
+          <label data-error="wrong" data-success="right" for="password">Your password</label>
+        </div>
+
+        <div class="text-center mb-5">
+          <button type="submit" class="btn blue-gradient btn-block btn-rounded z-depth-1a">Sign in</button>
+        </div>
+
+        <p class="font-small blue-text d-flex justify-content-end">Forgot <a href="#" class="blue-text ml-1">
+            Password?</a></p>
+      </form>
+    </div>
+    <!--Footer-->
+  </div>
+  <!--/.Content-->
+</div>
+</div>
+<!-- Modal -->
+
+
+<!-- Modal -->
+<div class="modal fade" id="darkModalForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog form-dark modal-md" role="document">
+    <!--Content-->
+    <div class="modal-content card card-image" style="background-image: url('https://mdbootstrap.com/img/Photos/Others/pricing-table%20(7).jpg');">
+      <div class="text-white rgba-stylish-strong py-5 px-5 z-depth-4">
+        <!--Header-->
+        <div class="modal-header text-center pb-4">
+          <h3 class="modal-title w-100 white-text font-weight-bold" id="myModalLabel"><strong>SIGN</strong> <a
+              class="green-text font-weight-bold"><strong> UP</strong></a></h3>
+          <button type="button" class="close white-text" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <!--Body-->
+        <div class="modal-body  signup">
+          <!--Body-->
+          <form id="signUpForm" method="POST" action="{% url 'memberise' %}">
+            <div class="row">
+
+            <div class="md-form col-6">
+                <input type="text" id="username1" class="form-control validate white-text">
+                <label class="white-text"  data-error="wrong" data-success="right" for="username1">Your username</label>
+              </div>
+
+            <div class="md-form col-6">
+              <input type="email" id="email" class="form-control validate white-text">
+              <label class="white-text" data-error="wrong" data-success="right" for="email">Your email</label>
+            </div>
+
+            <div class="md-form col-6">
+              <input type="password" id="password1" class="form-control validate white-text">
+              <label class="white-text"  data-error="wrong" data-success="right" for="password1">Your password</label>
+            </div>
+
+            <div class="md-form col-6">
+              <input type="password" id="password-confirm" class="form-control validate white-text">
+              <label class="white-text"  data-error="wrong" data-success="right" for="password-confirm">Confirm password</label>
+            </div>
+
+            <!--Grid row-->
+            <div class="row d-flex align-items-center mb-4">
+
+              <!--Grid column-->
+              <div class="text-center mb-3 col-md-12">
+                <button type="submit" class="btn btn-success btn-block btn-rounded z-depth-1">Sign up</button>
+              </div>
+              <!--Grid column-->
+
+            </div>
+            <!--Grid row-->
+
+            <!--Grid row-->
+            <div class="row">
+
+            </div>
+            <!--Grid row-->
+          </div>
+        </form>
+        </div>
+      </div>
+    </div>
+    <!--/.Content-->
+  </div>
+</div>
+<!-- Modal -->

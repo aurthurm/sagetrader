@@ -19,5 +19,7 @@ from .views import *
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('access/', GetAccess.as_view(), name='get-access'),
+    path('memberise/', Memberise.as_view(), name='memberise'),
     path('', home, name='home')
 ]
