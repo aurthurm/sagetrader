@@ -82,7 +82,6 @@
             }
         },
         error: function(err){
-            console.log(err)
         }
       });
 
@@ -104,10 +103,9 @@
             url: form.attr('action'),
             data: data,
             success: function(res){
-                console.log(res)
+                window.location.reload();
             },
             error: function(err){
-                console.log(err)
             }
         })
 

@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block main %}
+<div class="container">
+    <div class="row">
+        <div class="col-8 main">
+            {% include './single-trade.html' %}
+        </div>
+        <div class="col-4">
+            {% include 'widgets/trading-view-market-overview.html' %}
+        </div>        
+    </div>
+</div>
+<div class="modals">
+    {% include './modals/modal-trade-followup.html' %}
+</div>
+<div id="chart-cover" class="chart-overlay" style="display: none;">
+    <div class="image-chart" style="background-image: url('')"></div>
+</div>
+{% endblock %}
+
+
+{% block scripts %}
+    <script>
+        $(document).ready(function () {
+
+            // Submit tradeFollowUpForm
+            $('form#tradeFollowUpForm').on('submit', function(e){
+                e.preventDefault();
+                e.stopImmediatePropagation();
+                var form = $(this);
+                var data = {};
+                data['parent'] = form.find('#parent').val();
+                data['description'] = form.find('#description').val();
+                console.log(data);
+                
+                $.ajax({
+                    method: form.attr("method"),
+                    url: form.attr("action"),
+                    data: data,
+                    success: function(res){
+                        window.location.reload();
+                    },
+                    error: function(err){}
+                });
+            });
+
+            //
+
+        });
+    </script>
+{% endblock %}

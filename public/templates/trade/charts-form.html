@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block main %}
+    <form class="md-form" method="post" action="" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="file-field">
+            <div class="btn btn-primary btn-sm float-left">
+                <span>Choose file</span>
+                <input type="file" name="chart_before">
+            </div>
+            <div class="file-path-wrapper">
+                <input class="file-path validate" type="text" placeholder="Upload Chart Before">
+            </div>
+        </div>
+        <hr>
+        <div class="file-field">
+                <div class="btn btn-primary btn-sm float-left">
+                    <span>Choose file</span>
+                    <input type="file" name="chart_after">
+                </div>
+                <div class="file-path-wrapper">
+                    <input class="file-path validate" type="text" placeholder="Upload Chart After">
+                </div>
+        </div>
+
+        <button class="btn btn-success btn-md mt-5"> Update Trade</button>
+    </form>
+{% endblock %}

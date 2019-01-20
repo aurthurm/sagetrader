@@ -1,0 +1,36 @@
+<div class="modal fade" id="tradeFollowUp" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-top modal-dialog-centered" role="document">   
+        <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title w-100" id="myModalLabel">TRADE FOLLOWUP</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body px-5">
+
+            <!-- Form -->
+            <form id="tradeFollowUpForm" class="text-center" style="color: #757575;" method="POST" action="{% url 'trade:trade-followup' trade_id=object.pk %}">
+                <input id="parent" type="text" hidden value="{{object.pk}}">
+                <!--Textarea with icon prefix-->
+                <div class="md-form amber-textarea active-amber-textarea row">
+                    <div class="col-1">
+                        <i class="fas fa-pencil-alt prefix"></i>
+                    </div>
+                    <div class="col-11">
+                        <textarea type="text" id="description" class="md-textarea form-control" rows="3"></textarea>
+                        <label for="description">Follow Up Short Description</label>
+                    </div>
+                </div>
+
+                <!-- Submit up button -->
+                <button class="btn btn-outline-info btn-rounded btn-block my-4 waves-effect z-depth-0" type="submit">Add Strategy</button>
+            </form>
+
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Close</button>
+        </div>
+        </div>
+    </div>
+</div>

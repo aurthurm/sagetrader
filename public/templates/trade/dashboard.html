@@ -1,7 +1,22 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block styles %}
+<link rel="stylesheet" href="{% static 'vendor/trumbowyg/ui/trumbowyg.min.css' %}">
+{% endblock %}
 
 {% block main %}
-<div class="container">
+<div class="container-fluid">
+
+    {% include 'widgets/trading-view-ticker.html' %}
+    <hr>
+
+    <button type="button" class="btn btn-outline-info waves-effect" data-toggle="modal" data-target="#addTrade">Add a Trade</button>
+    <button type="button" class="btn btn-outline-warning waves-effect" data-toggle="modal" data-target="#addStrategy">Add a Strategy</button>
+
+    <button type="button" class="btn btn-outline-info waves-effect" data-toggle="modal" data-target="#tradingPlan">My Trading Plan</button>
+    <button type="button" class="btn btn-outline-warning waves-effect" data-toggle="modal" data-target="#tradingPortfolio">My Portfolio</button>
+    <hr>
 
     <ul class="nav md-pills nav-justified pills-pink">
         <li class="nav-item">
@@ -13,7 +28,12 @@
         <li class="nav-item">
             <a class="nav-link" data-toggle="tab" href="#statistics" role="tab">STATISTICS</a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#tvwidgets" role="tab">TV Widgets</a>
+        </li>
     </ul>
+
+    <hr>
 
     <div class="tab-content pt-0">
         <div class="tab-pane fade in show active" id="trades" role="tabpanel">
@@ -26,32 +46,206 @@
         </div>
         <div class="tab-pane fade" id="statistics" role="tabpanel">
             <br><br>
+            COMING SOON:
         </div>
+        <div class="tab-pane fade" id="tvwidgets" role="tabpanel">
+            <br><br>
+            <div class="row">
+                <div class="col">
+                    <h3>MARKET OVERVIEW</h3>
+                    {% include 'widgets/trading-view-market-overview.html' %}
+                </div>
+                <div class="col">
+                    <h3>ECONOMIC CALENDAR</h3>
+                    {% include 'widgets/trading-view-economic-calendar.html' %}
+                </div>
+                <div class="col-12 mt-5">
+                    <h3>CRYPTOCURENCY MARKET</h3>
+                    {% include 'widgets/trading-view-crypto-mkt-screener.html' %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modals">
+        {% include './modals/modal-add-trade.html' %}
+        {% include './modals/modal-add-strategy.html' %}
+        {% include './modals/modal-trading-plan.html' %}
+        {% include './modals/modal-portfolio.html' %}
     </div>
 
 </div>
 {% endblock %}
 
 {% block scripts %}
+    <script src="{% static 'vendor/trumbowyg/trumbowyg.min.js' %}"></script>
     <script>
         $(document).ready(function () {
 
             // Tables
-            $('#strategiesTable').DataTable();
             $('#tradesTable').DataTable({
                 ajax: "{% url 'trade:my-trades' %}",
                 "columns": [
                     { "data": "pair" },
                     { "data": "traded" },
                     { "data": "strategy" },
-                    { "data": "outcome" },
+                    { "data": "position" },
                     { "data": "pips" },
                     { "data": "shared" },
                     { "data": "status" },
                     { "data": "detail" },
                 ]
             });
+            $('#strategiesTable').DataTable({
+                ajax: "{% url 'trade:my-strategies' %}",
+                "columns": [
+                    { "data": "name" },
+                    { "data": "trades" },
+                    { "data": "open" },
+                    { "data": "closed" },
+                    { "data": "wins" },
+                    { "data": "losses" },
+                    { "data": "rate" },
+                    { "data": "pipsGained" },
+                    { "data": "pipsLost" },
+                    // { "data": "shared" },
+                    { "data": "detail" },
+                ]
+            });
             $('.dataTables_length').addClass('bs-select');
+
+            $('.mdb-select').materialSelect();
+
+            // Submit addTradeForm
+            $('form#addTradeForm').on('submit', function(e){
+                e.preventDefault();
+                e.stopImmediatePropagation();
+                var form = $(this);
+                var data = {};
+                data['pair'] = form.find('#pair').val();
+                data['position'] = form.find('#position').val();
+                data['share'] = form.find('#share').is(":checked");
+                data['strategy'] = form.find('#strategy').val();
+                data['status'] = form.find('#status').val();
+                data['outcome'] = form.find('#outcome').val();
+                data['pips'] = form.find('#pips').val();
+                data['description'] = form.find('#description').val();
+
+                $.ajax({
+                    method: form.attr("method"),
+                    url: form.attr("action"),
+                    data: data,
+                    success: function(res){
+                        window.location = window.location.href.split('?')[0];
+                    },
+                    error: function(err){}
+                });
+            });
+
+            // Submit addStrategyForm
+            $('form#addStrategyForm').on('submit', function(e){
+                e.preventDefault();
+                e.stopImmediatePropagation();
+                var form = $(this);
+                var data = {};
+                data['name'] = form.find('#name').val();
+                data['description'] = form.find('#description').val();
+                
+                $.ajax({
+                    method: form.attr("method"),
+                    url: form.attr("action"),
+                    data: data,
+                    success: function(res){
+                        window.location = window.location.href.split('?')[0];
+                    },
+                    error: function(err){}
+                });
+            });
+
+            // Edit Trading Plan
+            $('button#editTradingPlan').on('click', function(e){
+                var plan = "{{trading_plan.description|escapejs}}";
+                var content = $('#plan-content');
+                content.html(`<div id="description"></div>`);
+                $('div#description').trumbowyg({
+                    btns: [
+                        ['formatting'],
+                        ['redo', 'undo'], 
+                        ['bold', 'italic'], 
+                        ['link'], 
+                        ['justifyLeft', 'justifyCenter', 'justifyRight', 'justifyFull'], 
+                        ['unorderedList', 'orderedList'], 
+                        ['horizontalRule'], 
+                        ['removeformat'],
+                        ['viewHTML']
+                    ]
+                });
+                var editor = $('div#description');
+                editor.trumbowyg('html', plan); 
+                $('#updateTradingPlan').toggle();                   
+            });
+
+            $('#updateTradingPlan').on('click', function(e){
+                var editor = $('div#description');
+                var data = {};
+                data['update'] = editor.trumbowyg('html');
+                $.ajax({
+                    method: "POST",
+                    url: "{% url 'trade:update-plan' %}",
+                    data: data,
+                    success: function(res){
+                        window.location = window.location.href.split('?')[0] + "?om=tpu";
+                    }
+                });
+            });
+
+            //  portfolio Updates 
+            $('#portfolioUpdates').on('click', function(e){
+                var data = {
+                    'pairs': $("select#selectPairs").val().toString(),
+                    'strategies': $("select#selectStrategies").val().toString(),
+                };
+                console.log(data);
+                $.ajax({
+                    method: "POST",
+                    url: "{% url 'trade:update-portfolio' %}",
+                    data: data,
+                    success: function(res){
+                        window.location = window.location.href.split('?')[0] + "?om=pfu";
+                    }
+                });
+            });
+
+            // Remove pairs or strategies from portfolio
+            $('.folio-remove').on('dblclick', function(e){
+                var clicked = $(this);
+                var data = {};
+                data['type'] = clicked.attr('data-type');
+                data['id'] = clicked.attr('id');
+                $.ajax({
+                    method: "POST",
+                    url: "{% url 'trade:update-portfolio-remove' %}",
+                    data: data,
+                    success: function(res){
+                        window.location = window.location.href.split('?')[0] + "?om=pfu";
+                    }
+                });
+            });
+
+
+            // get url params
+            function param(name) {
+                return (location.search.split(name + '=')[1] || '').split('&')[0];
+            }
+            // Open modal after portfolio update
+            if (param("om") === "pfu"){
+                $('#tradingPortfolio').modal('show');
+            }
+            // Open modal after trading plan update
+            if (param("om") === "tpu"){
+                $('#tradingPlan').modal('show');
+            }
+
 
         });
     </script>

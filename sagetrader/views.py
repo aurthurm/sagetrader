@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.views.generic import TemplateView
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.http import JsonResponse
 from django.urls import reverse
@@ -93,3 +93,7 @@ class Memberise(TemplateView):
                 data['message'] = "Passwords don't match"
 
         return JsonResponse(data)
+
+def logout_view(request):
+    logout(request)
+    return redirect('home')

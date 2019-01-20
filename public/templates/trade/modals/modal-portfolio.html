@@ -1,0 +1,84 @@
+<div class="modal fade" id="tradingPortfolio" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-top modal-dialog-centered" role="document">   
+            <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title w-100" id="myModalLabel">
+                    TRADING PORTFOLIO
+                </h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body px-5">
+                <div class="row">
+                    <div class="col-12">
+                        <h5>My Pairs</h5>
+                        <hr>
+                        {% for pair in trading_portfolio.pairs.all %}
+                            <span class="badge badge-default folio-remove" data-type="pair" id="{{pair.pk}}">{{pair.name}}</span>                        
+                        {% empty %}
+                            You have not selected any pairs you want to restrict your self to.
+                            If you trade all pairs, then its perfect. 
+                            If you only trade a few pairs say 2,3,4 or 5 or you want to striclty restrict 
+                            yourself to trading only certain pairs, then this will be a perfect use case for you. 
+                            To add pairs to your portfolio add from below.
+                        {% endfor %}
+                    </div>
+                    <div class="col-12">
+                        <h5 class="mt-5">My Strategies</h5>
+                        <hr>
+                        {% for strategy in trading_portfolio.strategies.all %}
+                            <span class="badge badge-info folio-remove" data-type="strategy" id="{{strategy.pk}}">{{strategy.name}}</span>                        
+                        {% empty %}
+                            Create your strategies from the button above. 
+                            All strategies you create will appear in strategies list below.
+                            Then you can choose whether or not to add to your portfolio.
+                            You will not be able to place trades without a strategy in your portfolio.
+                            Without strategies in your portfolio we will not be able to help you generate 
+                            statistics required to track your peformance on each strategy. 
+                            Close this modal to create a strategy else choose below.
+                        {% endfor %}
+                    </div>
+                    <div class="col-12">
+                        <h6 class="mt-5">CHOOSE FROM BELOW</h6>
+                        <hr>
+                        <div class="row">
+                            <div class="col">
+                                <select id="selectPairs" class="mdb-select md-form" multiple searchable="Search here..">
+                                    <option value="" disabled selected>Choose Pairs</option>
+                                    {% for p_pair in excludes_pairs %}
+                                        <option value="{{p_pair.pk}}">{{p_pair.name}}</option>
+                                    {% endfor %}
+                                </select>
+                                <label>Select Pairs</label>
+                                <button class="btn-save btn btn-primary btn-sm">Add Pairs</button>
+                            </div>
+                            <div class="col">
+                                <select id="selectStrategies" class="mdb-select md-form" multiple searchable="Search here..">
+                                    <option value="" disabled selected>Choose Strategy</option>
+                                    {% for p_strategy in excludes_strategies %}
+                                        <option value="{{p_strategy.pk}}">{{p_strategy.name}}</option>
+                                    {% endfor %}
+                                </select>
+                                <label>Select Strategies</label>
+                                <button class="btn-save btn btn-primary btn-sm">Add Strategies</button>
+                            </div>
+                            <button id="portfolioUpdates" class="btn btn-primary btn-sm">Update Changes</button>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
+
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Close</button>
+            </div>
+            </div>
+        </div>
+    </div>

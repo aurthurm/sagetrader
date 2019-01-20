@@ -16,6 +16,13 @@ OUTCOMES = (
     (LOSS, _('Loss')),
 )
 
+LONG = 'L'
+SHORT = 'S'
+POSITIONS = (
+    (LONG, _('Long')),
+    (SHORT, _('Short')),
+)
+
 OPEN = 'O'
 CLOSED = 'C'
 STATUSES = (
@@ -41,7 +48,8 @@ class Strategy(models.Model):
         max_length=100
     )
     description =models.TextField(
-        _('description')
+        _('description'),
+        blank=True
     )
     owner = models.ForeignKey(
         'auth.User',
@@ -101,8 +109,19 @@ class Trade(models.Model):
     outcome = models.CharField(
         _('outcome'),
         max_length=10,
+        blank=True,
+        null=True,
         choices=OUTCOMES,
         default=GAIN
+    )
+    position = models.CharField(
+        _('position'),
+        max_length=10,
+        choices=POSITIONS,
+        default=LONG
+    )
+    description = models.TextField(
+        _('description')
     )
     status = models.CharField(
         _('status'),
@@ -111,7 +130,9 @@ class Trade(models.Model):
         default=OPEN
     )
     pips = models.SmallIntegerField(
-        _('pips')
+        _('pips'),
+        blank=True,
+        null=True,
     )
     share = models.BooleanField(
         _('share'),
@@ -191,6 +212,7 @@ class Portfolio(models.Model):
     )
     owner = models.OneToOneField(
         'auth.User',
+        related_name="trader_portfolio",
         on_delete=models.PROTECT
     )
     created = models.DateTimeField(auto_now=True)

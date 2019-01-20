@@ -40,9 +40,15 @@
                 </ul>
                 <ul class="navbar-nav ml-auto nav-flex-icons">
                     <li class="nav-item">
-                    <a class="nav-link p-0" href="#">
-                        @{{user.username}}
-                    </a>
+                        <a class="nav-link" href="#">
+                            @{{user.username}}
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'logout' %}" class="btn btn-outline-warning btn-sm ml-2">
+                            <i class="fa fa-sign-out"></i>
+                            <span>LOG OUT</span>
+                        </a>
                     </li>
                 </ul>
                 </div>
@@ -64,7 +70,6 @@
     <script src="{% static 'vendor/MDB-PRO-4.6.1/js/bootstrap.min.js' %}"></script>
     <script src="{% static 'vendor/MDB-PRO-4.6.1/js/mdb.min.js' %}"></script>
     <script src="{% static 'vendor/MDB-PRO-4.6.1/js/addons/datatables.min.js' %}"></script>
-    <script src="{% static 'vendor/MDB-PRO-4.6.1/js/bootstrap.min.js' %}"></script>
     <script src="{% static 'js/main.min.js' %}"></script>
     {% block scripts %}{% endblock %}
 </body>

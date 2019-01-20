@@ -1,0 +1,108 @@
+
+<!-- Card -->
+<div class="card card-cascade wider reverse">
+
+    <!-- Card image -->
+    <div class="view view-cascade overlay chart">
+        {% if object.chart_before %}
+            <a href="">
+                <img class="card-img-top" src="{{object.chart_before.url}}" alt="Card image cap">            
+            </a>            
+        {% else %}
+            <a href="">
+                <img class="card-img-top" src="" alt="Card image cap">            
+            </a>   
+        {% endif %}
+        <a href="#!">
+        <div class="mask rgba-white-slight"></div>
+        </a>
+    </div>
+    
+    <!-- Card content -->
+    <div class="card-body card-body-cascade text-center">    
+        <!-- Title -->
+        <h4 class="card-title d-flex justify-content-between">
+            <span>
+            </span>
+            <strong> 
+                {% if object.position == 'L' %}
+                <span class="text-success">
+                    <i class="fas fa-arrow-up"></i>
+                {% else %}
+                <span class="text-danger">
+                    <i class="fas fa-arrow-down"></i>
+                {% endif %}
+                </span> 
+                {{ object.pair.name }}
+                <span class="badge badge-dark mx-2 p-1"> 
+                    {% if object.status == 'O' %}
+                        <i class="fas fa-door-open" aria-hidden="true"></i>
+                    {% else %}
+                        <i class="fas fa-door-closed" aria-hidden="true"></i>
+                    {% endif %}
+                </span>
+            </strong>
+            <span>
+            </span>
+        </h4>
+        <!-- Subtitle -->
+        <h6 class="font-weight-bold indigo-text py-2">
+            {% if object.status == "C" %}
+                {% if object.outcome == "G" %}
+                <span class="text-success">+ {{object.pips}} pips</span>
+                {% else %}
+                <span class="text-danger">- {{object.pips}} pips</span>
+                {% endif %}
+            {% endif %}
+        </h6>
+        <!-- Text -->
+
+        <!-- Vertical Steppers -->
+        <div class="row mt-1">
+            <div class="col-md-12">        
+            <!-- Stepers Wrapper -->
+            <ul class="stepper stepper-vertical pt-0 mt-0">
+
+                <!-- First Step -->
+                <li class="completed">
+                <a href="#!">
+                    <span class="circle"><i class="fab fa-sketch"></i></span>
+                    <span class="label">Initial Trade</span>
+                </a>      
+                <!-- Section Description -->
+                <div class="step-content grey lighten-3">
+                    {{object.description}}
+                </div>
+                </li>
+                {% for follow in object.tradefollowup_set.all %}
+                    <!-- Second Step -->
+                    <li>        
+                        <!--Section Title -->
+                        <a href="#!">
+                            <span class="circle bg-success"><i class="fas fa-bullseye"></i></span>
+                            <span class="label">Followup</span>
+                        </a>        
+                        <!-- Section Description -->
+                        <div class="step-content grey lighten-3">
+                            {{follow.description}}
+                        </div>
+                    </li>
+                {% endfor %}
+
+                <div class="row">
+                    <div class="col-6">
+                        <button class="btn btn-outline-success btn-sm mt-5 ml-5" data-toggle="modal" data-target="#tradeFollowUp">FOLLOWUP</button> 
+                    </div>
+                    <div class="col-6">
+                        <a href="{% url 'trade:add-chart' trade_id=object.pk %} " class="btn btn-outline-success btn-sm mt-5">Add/Change Charts</a>
+                    </div>
+                </div>  
+        
+            </ul>
+            <!-- /.Stepers Wrapper -->
+        
+            </div>
+        </div>
+    </div>      
+</div>
+<!-- Card -->

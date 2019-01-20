@@ -1,0 +1,22 @@
+<div class="modal fade" id="tradingPlan" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-top modal-dialog-centered" role="document">   
+            <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title w-100" id="myModalLabel">
+                    TRADING PLAN
+                    <button id="editTradingPlan" class="btn btn-primary btn-sm ml-5"><i class="fas fa-edit ml-1"></i> EDIT</button>
+                </h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body px-5">
+                <div id="plan-content">{{trading_plan.description|safe}}</div>             
+                <button id="updateTradingPlan" class="btn btn-outline-info btn-block my-4 waves-effect z-depth-0" style="display:none">Update Trading Plan</button>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Close</button>
+            </div>
+            </div>
+        </div>
+    </div>
