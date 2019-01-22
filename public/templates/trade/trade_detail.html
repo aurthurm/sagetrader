@@ -15,7 +15,10 @@
     {% include './modals/modal-trade-followup.html' %}
 </div>
 <div id="chart-cover" class="chart-overlay" style="display: none;">
-    <div class="image-chart" style="background-image: url('')"></div>
+    <button id="close-overlay" class="btn btn-sm btn-danger float-right m-5">CLOSE</button>
+    <div id="image-chart">
+        <img src="" alt="" class="img-fluid">
+    </div>
 </div>
 {% endblock %}
 
@@ -23,6 +26,19 @@
 {% block scripts %}
     <script>
         $(document).ready(function () {
+
+            $('.mdb-select').materialSelect();
+
+            // Toggle trade status outcome
+            $('select#status').on('change', function(e){
+                var select = $(this);
+                var status = select.val();
+                if (status == 'C'){
+                    $('.status-effect').removeClass('d-none');
+                }else{
+                    $('.status-effect').addClass('d-none');
+                }
+            });
 
             // Submit tradeFollowUpForm
             $('form#tradeFollowUpForm').on('submit', function(e){
@@ -32,7 +48,9 @@
                 var data = {};
                 data['parent'] = form.find('#parent').val();
                 data['description'] = form.find('#description').val();
-                console.log(data);
+                data['status'] = form.find('#status').val();
+                data['outcome'] = form.find('#outcome').val();
+                data['pips'] = form.find('#pips').val();
                 
                 $.ajax({
                     method: form.attr("method"),
@@ -45,7 +63,17 @@
                 });
             });
 
-            //
+            // Chart img click
+            $('.chart').on('click', function(e){
+                var src = $(this).find('img').attr('src');
+                $('#image-chart').find("img").attr('src', src);
+                $('#chart-cover').toggle("slow");
+            });
+
+            $('#close-overlay').on('click', function(e){
+                $('#image-chart').find("img").attr('src', '');
+                $('#chart-cover').toggle("slow");
+            });
 
         });
     </script>

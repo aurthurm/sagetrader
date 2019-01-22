@@ -10,6 +10,12 @@
 .page-spacer-p {
   padding: 80px; }
 
+.d-none {
+  display: none; }
+
+.br-10 {
+  border-radius: 10px; }
+
 body {
   font-style: antialised; }
 
@@ -28,8 +34,7 @@ body {
   top: 0px;
   left: 0px;
   z-index: 10000000000; }
-  .chart-overlay .image-chart {
-    width: 80%;
-    height: 80%;
-    margin: 0 auto;
-    margin-top: 5%; }
+  .chart-overlay #image-chart {
+    width: 70%;
+    height: 70%;
+    margin: 1% auto; }

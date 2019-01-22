@@ -31,6 +31,34 @@ class Dashboard(TemplateView):
         context['trading_portfolio'] = portfolio
         return context
 
+class Statistics(TemplateView):
+
+    def get(self, *args, **kwargs):
+        query = self.request.GET
+        strategy_id = int(query.get('strategy'))        
+        strategy = get_object_or_404(Strategy, pk=strategy_id)
+        strategy_trades = Trade.objects.filter(strategy__exact=strategy)
+        pair_ids = strategy_trades.values('pair')
+        pairs = Pair.objects.all()
+        dataset = []
+        for _id in pair_ids:
+            trades = strategy_trades.filter(pair__exact=_id['pair'])
+            won = trades.filter(outcome__exact=GAIN)
+            lost = trades.filter(outcome__exact=LOSS)
+            pair = pairs.get(pk=_id['pair'])
+            row = {
+                'pair': pair.name,
+                'trades': trades.count(),
+                'won': won.count(),
+                'lost': lost.count(),
+                'rate': won.count()/trades.count() * 100,
+                'pipsgained': won.aggregate(Sum('pips'))['pips__sum'],
+                'pipslost': lost.aggregate(Sum('pips'))['pips__sum']
+            }
+            dataset.append(row)
+        return JsonResponse(dataset, safe=False)
+
+
 class UpdatePlan(TemplateView):
     model = TradingPlan
 
@@ -172,10 +200,18 @@ class AddFollowUp(TemplateView):
     
     def post(self, *args, **kwargs):
         data = {}
+        trade = get_object_or_404(Trade, pk=int(self.kwargs.get('trade_id')))
         response = self.request.POST
         description = response.get('description')
-        parent = response.get('parent')
-        trade = get_object_or_404(Trade, pk=int(self.kwargs.get('trade_id')))
+        if trade.status == OPEN:
+            status = response.get('status')
+            if status == CLOSED:
+                outcome = response.get('outcome')
+                pips = int(response.get('pips'))
+                trade.status=status
+                trade.outcome=outcome
+                trade.pips=pips
+                trade.save()
         TradeFollowUp.objects.create(
             trade=trade,
             description=description,

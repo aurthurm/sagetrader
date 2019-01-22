@@ -1,0 +1,11 @@
+ 
+ <div class="row">
+ 	<div class="col-4"> 
+        <select id="statiticsStrategies" class="mdb-select md-form colorful-select dropdown-primary" searchable="Search here..">
+            {% for strategy in strategies %}
+                <option value="{{strategy.pk}}">{{strategy.name}}</option>
+            {% endfor %}
+        </select>
+        <label>Select a Strategy to search</label> 		
+ 	</div>
+ </div>

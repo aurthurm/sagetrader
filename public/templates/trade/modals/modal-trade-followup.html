@@ -13,7 +13,37 @@
             <form id="tradeFollowUpForm" class="text-center" style="color: #757575;" method="POST" action="{% url 'trade:trade-followup' trade_id=object.pk %}">
                 <input id="parent" type="text" hidden value="{{object.pk}}">
                 <!--Textarea with icon prefix-->
-                <div class="md-form amber-textarea active-amber-textarea row">
+                {% if object.status == "O" %}
+                    <div class="form-row">
+                        <div class="col">
+                            <div class="md-form">
+                                <select id="status" class="mdb-select md-form" searchable="Search here..">
+                                    <option value="" disabled selected>Trade Status</option>
+                                    <option value="O">OPEN</option>
+                                    <option value="C">CLOSED</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="md-form status-effect d-none">
+                                <select id="outcome" class="mdb-select md-form" searchable="Search here..">
+                                    <option value="" disabled selected>Trade Outcome</option>
+                                    <option value="G">GAIN</option>
+                                    <option value="L">LOSS</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="md-form status-effect d-none">
+                                <input type="text" id="pips" class="form-control">
+                                <label for="pips">Pips</label>
+                              </div>
+                        </div>
+                    </div>
+                {% endif %}
+
+                <div class="md-form amber-textarea active-amber-textarea row">           
+
                     <div class="col-1">
                         <i class="fas fa-pencil-alt prefix"></i>
                     </div>
