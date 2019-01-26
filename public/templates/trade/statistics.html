@@ -2,10 +2,46 @@
  <div class="row">
  	<div class="col-4"> 
         <select id="statiticsStrategies" class="mdb-select md-form colorful-select dropdown-primary" searchable="Search here..">
-            {% for strategy in strategies %}
+            {% for strategy in traded_strategies %}
                 <option value="{{strategy.pk}}">{{strategy.name}}</option>
             {% endfor %}
         </select>
         <label>Select a Strategy to search</label> 		
  	</div>
+ </div>
+ <div class="row">
+ 	<!-- Tablr -->
+ 	<div class="col-12">
+		<table id="strategyStatsTable" class="table table-striped table-bordered" cellspacing="0" width="100%">
+		    <thead>
+		      <tr>
+		        <th class="th-sm">Pair</th>
+		        <th class="th-sm">Total</th>
+		        <th class="th-sm">Win</th>
+		        <th class="th-sm">Lost</th>
+		        <th class="th-sm">+ Pips</th>
+		        <th class="th-sm">- Pips</th>
+		        <th class="th-sm">Win Rate</th>
+		      </tr>
+		    </thead>
+		    <tbody>
+		    </tbody>
+		    <tfoot>
+		      <tr>
+		        <th>Pair</th>
+		        <th>Total</th>
+		        <th>Win</th>
+		        <th>Lost</th>
+		        <th>+ Pips</th>
+		        <th>- Pips</th>
+		        <th>Win Rate</th>
+		      </tr>
+		    </tfoot>
+		  </table>
+ 	</div>
+ 	<!-- Bubble Charts:  -->
+ 	<div class="col-6">
+ 		<div id="dimpleChart"></div>
+ 	</div>
+ 	
  </div>

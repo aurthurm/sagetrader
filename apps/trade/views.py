@@ -20,6 +20,11 @@ class Dashboard(TemplateView):
         portfolio_strategies = portfolio.strategies.all()
         pairs = Pair.objects.all()
         portfolio_pairs = portfolio.pairs.all()
+        traded_by_requets_user = Trade.objects.filter(trader=trader)
+        traded_strategies = []
+        for tr in traded_by_requets_user:
+            if not tr.strategy in traded_strategies:
+                traded_strategies.append(tr.strategy)
         if portfolio_pairs.count() == 0:
             context['pairs'] = pairs
         else:
@@ -27,6 +32,7 @@ class Dashboard(TemplateView):
         context['excludes_pairs'] = pairs.exclude(id__in=portfolio_pairs)
         context['excludes_strategies'] = strategies.exclude(id__in=portfolio_strategies)
         context['strategies'] = portfolio_strategies
+        context['traded_strategies'] = traded_strategies
         context['trading_plan'] = plan
         context['trading_portfolio'] = portfolio
         return context
@@ -38,22 +44,44 @@ class Statistics(TemplateView):
         strategy_id = int(query.get('strategy'))        
         strategy = get_object_or_404(Strategy, pk=strategy_id)
         strategy_trades = Trade.objects.filter(strategy__exact=strategy)
-        pair_ids = strategy_trades.values('pair')
+        pair_ids = strategy_trades.values('pair').distinct()
         pairs = Pair.objects.all()
         dataset = []
+
         for _id in pair_ids:
             trades = strategy_trades.filter(pair__exact=_id['pair'])
             won = trades.filter(outcome__exact=GAIN)
             lost = trades.filter(outcome__exact=LOSS)
             pair = pairs.get(pk=_id['pair'])
+            if not won.count() == 0:
+                avg = won.aggregate(Sum('pips'))['pips__sum']/won.count()
+            else:
+                avg = 0
+            allwonpips = []
+            for awp in won.values('pips'):
+                allwonpips.append(awp['pips'])
+            alllostpips = []
+            for alp in lost.values('pips'):
+                alllostpips.append(alp['pips'])
             row = {
                 'pair': pair.name,
                 'trades': trades.count(),
                 'won': won.count(),
+                'allwonpips': allwonpips,
+                'alllostpips': alllostpips,
                 'lost': lost.count(),
                 'rate': won.count()/trades.count() * 100,
+                'rates': [
+                    {
+                        'gained': won.count()/trades.count() * 100
+                    },
+                    {
+                        'lost': lost.count()/trades.count() * 100
+                    },
+                ],
                 'pipsgained': won.aggregate(Sum('pips'))['pips__sum'],
-                'pipslost': lost.aggregate(Sum('pips'))['pips__sum']
+                'pipslost': lost.aggregate(Sum('pips'))['pips__sum'],
+                'avg': avg,
             }
             dataset.append(row)
         return JsonResponse(dataset, safe=False)

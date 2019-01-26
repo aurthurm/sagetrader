@@ -79,6 +79,7 @@
 {% endblock %}
 
 {% block scripts %}
+    <script src="{% static 'js/statistics.js' %}"></script>
     <script src="{% static 'vendor/trumbowyg/trumbowyg.min.js' %}"></script>
     <script>
         $(document).ready(function () {
@@ -258,20 +259,7 @@
                 $('#tradingPlan').modal('show');
             }
 
-            // statiticsStrategies
-            $('select#statiticsStrategies').on('change', function(e){
-                var selected = $(this).val();
-                $.ajax({
-                    method: "GET",
-                    url: "{% url 'trade:member-statistics' %}",
-                    data: {
-                        'strategy': selected
-                    },
-                    success: function(res){
-                        console.log(res);
-                    }
-                })
-            });
+
 
         });
     </script>
