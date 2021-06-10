@@ -1,7 +1,7 @@
 ansicolors==1.1.8
 certifi==2018.11.29
 configparser==3.5.0
-Django==2.2a1
+Django==2.2.24
 django-gulp==4.1.0
 env-tools==2.2.0
 gunicorn==19.9.0
