@@ -1,5 +1,5 @@
 ansicolors==1.1.8
-certifi==2018.11.29
+certifi==2022.12.7
 configparser==3.5.0
 Django==2.2a1
 django-gulp==4.1.0
